@@ -54,17 +54,15 @@ class FirstController extends Controller
         ];
     }
 
-
     public function actionBackupget(){
         return $this->render('backup');
     }
 
     public function actionBackuppost(){
-        
         $component = new Component();
-        // $component->init();
+        $component->init();
         $component->create();
-        return $this->render('backup');
+        return $this->render('success');
     }
 
     

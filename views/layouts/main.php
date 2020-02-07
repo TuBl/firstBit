@@ -8,6 +8,7 @@ use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
+// use yii\bootstrap\Progress;
 use app\assets\AppAsset;
 use app\components\Component;
 
@@ -28,7 +29,7 @@ AppAsset::register($this);
 <?php $this->beginBody() ?>
 
 <div class="wrap">
-    <?php
+    <!-- <?php
     NavBar::begin([
         'brandLabel' => Yii::$app->name,
         'brandUrl' => Yii::$app->homeUrl,
@@ -57,23 +58,28 @@ AppAsset::register($this);
         ],
     ]);
     NavBar::end();
-    ?>
+    ?> -->
 
     <div class="container">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
+   <script type = "text/javascript">
+   setTimeout(() => {
+    $(".info").fadeOut("slow");
+   }, 3000);
+   </script>
         <?= Alert::widget() ?>
         <?= $content ?>
 </div>
 
-<footer class="footer">
+<!-- <footer class="footer">
     <div class="container">
         <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
 
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>
-</footer>
+</footer> -->
 
 <?php $this->endBody() ?>
 </body>

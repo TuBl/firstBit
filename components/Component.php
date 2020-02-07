@@ -35,8 +35,11 @@ class Component extends \yii\base\Component
     //command to create the database backup
     public $mysqldump = 'mysqldump --add-drop-table --allow-keywords -q -c -u "{username}" -h "{host}" -p\'{password}\' {db} | gzip -9';
 
+
     public function init()
     {
+        // Yii::$app->session->setFlash('warning', 'Loading...');
+
         // Check backup folder
         if (!is_dir($this->backupsFolder)) {
             throw new InvalidConfigException('Directory for backups "' . $this->backupsFolder . '" does not exists');
@@ -67,14 +70,11 @@ class Component extends \yii\base\Component
         }
     }
 
-    /**
-     * Create dump of all directories and all databases and save result to bakup folder with timestamp named zip-archive
-     *
-     * @return string Full path to created backup file
-     * @throws Exception
-     */
+    //Create dump of all directories and all databases and save result to bakup folder with timestamp  named zip-archive
+
     public function create()
     {
+
         $folder = $this->getBackupFolder();
 
         $files = $this->backupFiles($folder);
@@ -95,13 +95,7 @@ class Component extends \yii\base\Component
         return $archiveFile;
     }
 
-    /**
-     * Create backups for $directories and save it to "<backups folder>"
-     *
-     * @param string $saveTo
-     *
-     * @return bool
-     */
+    //back up files in directories list
     public function backupFiles($saveTo)
     {
         foreach ($this->directories as $name => $value) {
@@ -122,10 +116,12 @@ class Component extends \yii\base\Component
             // add folder
             $archive->buildFromDirectory($folder, $regex);
         }
+        Yii::$app->session->setFlash('success', 'File backed up succesfuly!');
 
         return true;
     }
 
+    //backup databases in databases list
     public function backupDatabase($saveTo)
     {
         $saveTo .= DIRECTORY_SEPARATOR . 'sql';
@@ -194,11 +190,8 @@ class Component extends \yii\base\Component
         return true;
     }
 
-    /**
-     * Generate backup filename
-     *
-     * @return string
-     */
+ 
+    //generate file name
     public function getBackupFilename()
     {
         if (is_callable($this->backupFilename)) {
