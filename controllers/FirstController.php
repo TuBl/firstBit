@@ -59,7 +59,7 @@ class FirstController extends Controller
         $component->init();
         $create = $component->create(); 
         if($create != null){
-             Yii::$app->session->setFlash('success', 'File backed up succesfuly!');
+             Yii::$app->session->setFlash('success', 'Files backed up succesfuly!');
             return true;
         }
         else{
@@ -76,7 +76,14 @@ class FirstController extends Controller
     }
 
     public function actionIndex(){
-        return $this->render('index');
+        $path    = '../tables';
+        $files = scandir($path);
+        $files = array_diff(scandir($path), array('.', '..'));
+        return $this->render('index', [
+        'file' => $files
+        ]);
+        // var_dump($file);
+
     }
     public function actionSuccess(){
         return $this->render('success');

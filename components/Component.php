@@ -18,7 +18,6 @@ class Component extends \yii\base\Component
     public $expireTime = 2592000;
     // Directories to be backed up
     public $directories = [
-        'images' => '../Images',
         'tables' => '../tables'
     ];
 
@@ -64,7 +63,6 @@ class Component extends \yii\base\Component
     //back up files in directories list
     public function backupFiles($saveTo)
     {
-        // sleep(1);
         foreach ($this->directories as $name => $value) {
             if (is_array($value)) {
                 // if exists config, use it
@@ -99,8 +97,7 @@ class Component extends \yii\base\Component
             return date($this->backupFilename);
         }
     }
-
-
+    
     public function getBackupFolder()
     {
         // Base backups folder

@@ -32,7 +32,11 @@ $this->registerJsFile(
             ]);
             ?>
             </h1>
-            <h1>Backing up your files...</h1>
+            <?php 
+            foreach($file as $value){
+                echo "<h2>Backing up $value</h2>";
+            }
+            ?>
         </div>
         <div id = "completed" style = "display: none;">
             <h1>Back up completed!!</h1>
