@@ -54,6 +54,15 @@ class FirstController extends Controller
         ];
     }
 
+    //get percentage to pass to Progress widget
+
+    public function actionPercentage($id) {
+        if (Yii::app()->request->isAjaxRequest) {
+           $item = YourModelName::model()->findByPk($id); //obtain instance of object containing your function
+           echo $item->getBuildPercentage(); //to return value in ajax, simply echo it   
+        }
+        }
+        
     public function actionBackupget(){
         return $this->render('backup');
     }
@@ -62,9 +71,21 @@ class FirstController extends Controller
         $component = new Component();
         $component->init();
         $component->create();
+        var_dump( $component->backupsFolder);
         return $this->render('success');
     }
 
+    public function actionVue()
+{
+	// set the specific layout for pages that will render vue
+	$this->layout = 'vue_main';
+
+	// override bundle configuration if needed
+	Yii::$app->assetManager->bundles = [];
+
+	// render page
+	return $this->render('vue_page');
+}
     
     //test
     // public function actionHello($message){   
@@ -75,4 +96,29 @@ class FirstController extends Controller
     // );
     // }
 
+    public function actionTest(){
+
+        echo '<pre>';
+        var_dump(Yii::$app->request->get());
+        echo '<pre>';
+
+    //    $id = Yii::$app->request->get('id');
+    //     if($id == 1){
+    //         $percentage = 1;
+    //         // echo $percentage;
+    //         return $this->render('test', [
+    //             'percentage' => $percentage,   
+    //         ]);
+    //     }
+    //     else{
+    //         $percentage = 20;
+    //         // echo $percentage;
+    //         return $this->render('test', [
+    //             'percentage' => $percentage,
+           
+    //         ]);
+    //     }
+
+
+    }
 }

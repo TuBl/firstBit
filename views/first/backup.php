@@ -3,11 +3,19 @@ use yii\helpers\Html;
 use yii\web\View;
 /* @var $this yii\web\View */
 $this->title = 'My Yii Application';
-// $this->registerJs(
-//     "$('#myButton').on('click', function() { alert('Button clicked!'); });",
-//     View::POS_READY,
-//     'my-button-handler'
-// );
+
+//script to query for build % every 1 sec
+// Yii::$app->clientScript->registerCoreScript('jquery');
+// Yii::$app->clientScript->registerScript('ajax-percentage','
+//    var interval = 1000;
+//    setInterval(function() { $.ajax(
+//         type: "GET",
+//         url: '.Yii::app()->createUrl('first/percentage', array('id'=>$item->id)).',
+//         success: function (percents) {
+//             // you have got your percents, so you can now assign it to progressbar value here
+//         }
+//  )}, interval);
+// ');
 ?>
 <div class="site-index">
     <div class="jumbotron">

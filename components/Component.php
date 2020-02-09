@@ -35,6 +35,25 @@ class Component extends \yii\base\Component
     //command to create the database backup
     public $mysqldump = 'mysqldump --add-drop-table --allow-keywords -q -c -u "{username}" -h "{host}" -p\'{password}\' {db} | gzip -9';
 
+    public $startTime = "";
+    public $finishTime = "";
+    public function getBuildPercentage() {
+        $currentTime = strtotime(date('Y-m-d H:i:s')); //50
+        $boughtTime = strtotime($this->startTime); 
+        $finishTime = strtotime($this->finishTime); //100
+    
+        $first = $currentTime - $boughtTime;
+        $second = $finishTime - $boughtTime;
+    
+        $percentage =   [$currentTime, $boughtTime, $finishTime];
+        //round(($first / $second) * 100);    
+    
+        // if the percentage is higher than 100 -> item is finished
+        // if($percentage >= 100)
+        //     $this->setToFinished($this->id); 
+    
+        return $percentage; 
+    }
 
     public function init()
     {
@@ -60,6 +79,7 @@ class Component extends \yii\base\Component
                 'username' => $dbComponent->username,
                 'password' => addcslashes($dbComponent->password, '\''),
             ];
+            $this->startTime = date('Y-m-d H:i:s');
         }
 
         // Set db name if not exists in databases config array
@@ -76,10 +96,8 @@ class Component extends \yii\base\Component
     {
 
         $folder = $this->getBackupFolder();
-
         $files = $this->backupFiles($folder);
-        $db = $this->backupDatabase($folder);
-
+        // $db = $this->backupDatabase($folder);
         $resultFilename = $this->getBackupFilename();
         $archiveFile = dirname($folder) . DIRECTORY_SEPARATOR . $resultFilename . '.zip';
 
@@ -116,79 +134,12 @@ class Component extends \yii\base\Component
             // add folder
             $archive->buildFromDirectory($folder, $regex);
         }
-        Yii::$app->session->setFlash('success', 'File backed up succesfuly!');
+        $this->finishTime = date('Y-m-d H:i:s');
+        // Yii::$app->session->setFlash('success', 'File backed up succesfuly!');
 
         return true;
     }
 
-    //backup databases in databases list
-    public function backupDatabase($saveTo)
-    {
-        $saveTo .= DIRECTORY_SEPARATOR . 'sql';
-        mkdir($saveTo);
-
-        foreach ($this->databases as $name => $params) {
-            // Get mysqldump command
-            $command = isset($params['command']) && !empty($params['command']) ? $params['command'] : $this->mysqldump;
-
-            if ((string)$params['password'] === '') {
-                // Remove password option
-                $command = str_replace('-p\'{password}\'', '', $command);
-                unset($params['password']);
-            }
-
-            foreach ($params as $k => $v) {
-                $command = str_replace('{' . $k . '}', $v, $command);
-            }
-
-            $file = $saveTo . DIRECTORY_SEPARATOR . $name . '.sql.gz';
-
-            system($command . ' > ' . $file);
-        }
-
-        return true;
-    }
-
-
-    // delete expired backups
-    public function deleteExpired()
-    {
-        if (empty($this->expireTime)) {
-            // Prevent deleting if expireTime is disabled
-            return true;
-        }
-
-        $backupsFolder = Yii::getAlias($this->backupsFolder);
-        // Calculate expire date
-        $expireDate = time() - $this->expireTime;
-
-        $filter = function ($path) use ($expireDate) {
-            // Check extension
-            if (substr($path, -4) !== '.zip') {
-                return false;
-            }
-
-            if (is_file($path) && filemtime($path) <= $expireDate) {
-                // if the time has come - delete file
-                return true;
-            }
-
-            return false;
-        };
-
-        // Find expired backups files
-        $files = FileHelper::findFiles($backupsFolder, ['recursive' => false, 'filter' => $filter]);
-
-        foreach ($files as $file) {
-            if (@unlink($file)) {
-                Yii::info('Backup file was deleted: ' . $file, 'app\components\Component::deleteExpired()');
-            } else {
-                Yii::error('Cannot delete backup file: ' . $file, 'app\components\Component::deleteExpired()');
-            }
-        }
-
-        return true;
-    }
 
  
     //generate file name

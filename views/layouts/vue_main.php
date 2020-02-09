@@ -1,12 +1,17 @@
 <?php
+/**
+ * Email: srdjandrakul@gmail.com
+ * Date: 8/10/2019
+ * Time: 20:54
+ */
+
+use yii\helpers\Html;
+use app\assets\VueAssets;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
 
-use yii\helpers\Html;
-use app\assets\AppAsset;
-
-AppAsset::register($this);
+VueAssets::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -26,7 +31,7 @@ AppAsset::register($this);
     <?= $this->render('_nav'); ?>
 
     <div class="container">
-        <?= $content ?>
+        <?= $content; ?>
     </div>
 </div>
 
