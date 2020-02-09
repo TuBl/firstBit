@@ -1,7 +1,7 @@
-Run: php composer.phar install in the root directory to install dependencies
+Run:  'composer install' in the root directory to install dependencies
 
-Run: php yii serve to run the project (localhost:8080)
-
-Navigate to : first/backupget
+Run: 'php yii serve' to run the project 
 
 Click button to back up files
+
+Progress bar will show, and user will be notified wheter the back-up succeeds or not.
