@@ -1,10 +1,18 @@
+
+
 <?php
 
 /* @var $this \yii\web\View */
 /* @var $content string */
 
+use app\widgets\Alert;
 use yii\helpers\Html;
+use yii\bootstrap\Nav;
+use yii\bootstrap\NavBar;
+use yii\widgets\Breadcrumbs;
+// use yii\bootstrap\Progress;
 use app\assets\AppAsset;
+use app\components\Component;
 
 AppAsset::register($this);
 ?>
@@ -23,16 +31,22 @@ AppAsset::register($this);
 <?php $this->beginBody() ?>
 
 <div class="wrap">
-    <?= $this->render('_nav'); ?>
-
     <div class="container">
+        <?= Breadcrumbs::widget([
+            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+        ]) ?>
+   <script type = "text/javascript">
+   setTimeout(() => {
+    $(".info").fadeOut("slow");
+   }, 3000);
+   </script>
+        <?= Alert::widget() ?>
         <?= $content ?>
-    </div>
 </div>
-
-<?= $this->render('_footer'); ?>
 
 <?php $this->endBody() ?>
 </body>
 </html>
 <?php $this->endPage() ?>
+<?php
+
