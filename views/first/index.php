@@ -22,7 +22,7 @@ $this->registerJsFile(
 <div class="site-index">
     <div class="jumbotron">
         <h2>Click the button to Initiate the backup procedure</h2>
-        <button  id = "myButton" class = 'btn btn-primary'>Button</button>
+        <button  id = "myButton" class = 'btn btn-primary'>Back Up</button>
         <div id = "progress" style = "display: none;">
             <h1>
             <?php echo Progress::widget([
